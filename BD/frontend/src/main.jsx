@@ -1,12 +1,15 @@
-// BD/frontend/src/main.jsx
+// src/main.jsx
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
-import "./index.css";   // <-- ajoute (ou vérifie) cette ligne
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./index.css"; // Tailwind import
+import App from "./App.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>
 );
 

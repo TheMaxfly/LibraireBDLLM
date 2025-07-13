@@ -1,37 +1,17 @@
-import { useState } from "react";
-import axios from "axios";
+// src/App.jsx
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import Login from "./pages/Login";
+import Chat from "./pages/Chat";
+import useAuth from "./hooks/useAuth";
 
-function App() {
-  const [prompt, setPrompt] = useState("");
-  const [answer, setAnswer] = useState("");
-
-  const ask = async () => {
-    const token = localStorage.getItem("token");
-    const res = await axios.post(
-      "http://localhost:8000/recommend",
-      { prompt },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-    setAnswer(res.data.response);
-  };
-
+export default function App() {
+  const { user } = useAuth();
   return (
-    <div className="p-4 max-w-xl mx-auto">
-      <textarea
-        className="w-full border rounded p-2"
-        rows={4}
-        value={prompt}
-        onChange={(e) => setPrompt(e.target.value)}
-      />
-      <button
-        className="mt-2 bg-blue-600 text-white px-4 py-2 rounded"
-        onClick={ask}
-      >
-        Demander une reco
-      </button>
-      <pre className="mt-4 whitespace-pre-wrap">{answer}</pre>
-    </div>
+    <Routes>
+      <Route path="/" element={<Navigate to={user ? "/chat" : "/login"} />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/chat" element={user ? <Chat /> : <Navigate to="/login" />} />
+    </Routes>
   );
 }
-
-export default App;
