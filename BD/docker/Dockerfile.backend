@@ -1,0 +1,23 @@
+# BD/docker/Dockerfile.backend
+FROM python:3.12-slim
+
+# 1. Variables d’environnement pour éviter les avertissements pip
+ENV PYTHONUNBUFFERED=1 \
+    POETRY_VIRTUALENVS_CREATE=false
+
+WORKDIR /app
+
+# 2. Copier uniquement ce dont on a besoin pour installer les dépendances
+COPY requirements.txt ./
+# Si vous utilisez .env en dev, vous pouvez le copier aussi
+# COPY .env ./
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 3. Copier le code de l’application
+COPY app/ ./app/
+
+# 4. Exposer le port et lancer Uvicorn
+EXPOSE 8000
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+
