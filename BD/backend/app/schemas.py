@@ -16,8 +16,7 @@ class UserRead(BaseModel):
     role: str
 
     class Config:
-        orm_mode = True
-
+        from_attributes = True
 class Token(BaseModel):
     access_token: str
     token_type: str = "bearer"
@@ -43,7 +42,7 @@ class ComicRead(ComicBase):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class ComicUpdate(BaseModel):
     title: Optional[str]
