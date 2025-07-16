@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+sqlmodel
+passlib[bcrypt]
+python-jose[cryptography]
+python-dotenv
+langchain>=0.2
+langgraph>=0.0.18
+langchain-ollama
+chromadb
+pandas
+psycopg2-binary
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart

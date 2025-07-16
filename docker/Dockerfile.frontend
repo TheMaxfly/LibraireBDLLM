@@ -1,0 +1,23 @@
+# BD/docker/Dockerfile.frontend
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+# 1. Copier package.json & lockfile
+COPY package.json package-lock.json ./
+RUN npm ci
+
+# 2. Copier le reste du code et builder
+COPY src/ ./src/
+COPY public/ ./public/
+COPY tailwind.config.js postcss.config.js ./
+RUN npm run build
+
+# 3. Servir le build statique via un simple serveur Nginx
+FROM nginx:stable-alpine
+
+COPY --from=builder /app/dist /usr/share/nginx/html
+# Si besoin, copiez un fichier de config custom pour nginx
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
